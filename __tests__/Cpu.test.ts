@@ -1,5 +1,4 @@
 import Cpu from '../src/Cpu';
-import fetch from "node-fetch";
 
 const cpu = new Cpu();
 
@@ -22,8 +21,7 @@ test('should load rom', () => {
     expect(cpu.memory[0x201]).toBe(0xe0);
 
 }).catch(e => {
-    console.log(e);
-    
+    console.log(e);    
 });
 
 

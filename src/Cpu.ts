@@ -44,7 +44,7 @@ class Cpu {
 	0xF0, 0x80, 0xF0, 0x80, 0x80  // F'
     );
 this.screenElement = document.querySelector<HTMLCanvasElement>('#screen')!;
-this.display = new Array(this.screenElement.clientWidth * this.screenElement.clientHeight).fill(0);
+this.display = new Array(64 * 32).fill(0);
 this.screen = new Screen();
   }
   _initKeyboard() {
@@ -60,7 +60,7 @@ this.screen = new Screen();
 
 
     async _loadRom() {
-      let response = await fetch('../roms/IBM.ch8');
+      let response = await fetch('../roms/fisher.ch8');
       let content = await response.blob();
       const romBuffer = new Uint8Array(await content.arrayBuffer());
       for (let i = 0; i < romBuffer.byteLength; i++) {
@@ -159,21 +159,19 @@ this.screen = new Screen();
         case 0xd:
           let xCoor = this.register[Vx] % 64;
           let yCoor = this.register[Vy] % 32;
-          console.log(`xCoor: ${xCoor} , yCoor: ${yCoor}`);
           
           this.register[0xf] = 0;
-          console.log(`n: ${n}`);
           
           for (let row = 0, height = n; row < height; row++) {
                 let pixelByte = this.memory[this.I + row];
-                for (let col =0; col < 8; col++) {
+                for (let col = 0; col < 8; col++) {
                   let pixelBinary = (pixelByte >> (7 - col)) & 0b1;
-                let screenBinary = this.display[(yCoor + row ) * this.screenElement.clientWidth + (xCoor + col)];
-                  if(pixelBinary ) {
-                    if(screenBinary) {
+                let screenBinary = this.display[(yCoor + row ) * 64 + (xCoor + col)];
+                  if(pixelBinary !== 0 ) {
+                    if(screenBinary === 1) {
                         this.register[0xF] = 1
                     }
-                     this.display[(yCoor + row ) * this.screenElement.clientWidth + (xCoor + col)] ^= 1;
+                     this.display[(yCoor + row ) * 64 + (xCoor + col)] ^= 1;
 
                   }else {
                   }

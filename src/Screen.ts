@@ -16,16 +16,16 @@ class Screen {
   }
   _setPixel(display: Array<number>) {
     
-    for (let height = 0; height < this.screenElement.clientHeight ; height++) {
-      for (let width = 0; width < this.screenElement.clientWidth; width++) {
+    for (let height = 0; height < 32 ; height++) {
+      for (let width = 0; width < 64; width++) {
         
-        if(display[height * this.screenElement.clientWidth + width]) {
+        if(display[height * 64 + width]) {
           this.screen.fillStyle = "red";
-          this.screen.fillRect(width,height,1,1);
+          this.screen.fillRect(width * 10,height * 10,10,10);
         }
         else {
           this.screen.fillStyle = "black";
-          this.screen.fillRect(width,height,1,1);
+          this.screen.fillRect(width * 10,height * 10,10,10);
         }
       }
       

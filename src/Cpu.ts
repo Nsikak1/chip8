@@ -60,7 +60,7 @@ this.screen = new Screen();
 
 
     async _loadRom() {
-      let response = await fetch('../roms/fisher.ch8');
+      let response = await fetch('../roms/IBM Logo.ch8');
       let content = await response.blob();
       const romBuffer = new Uint8Array(await content.arrayBuffer());
       for (let i = 0; i < romBuffer.byteLength; i++) {
@@ -151,6 +151,9 @@ this.screen = new Screen();
           console.log(`this.register[Vx] ${this.register[Vx]}`);
           
           break;
+        case 7:
+          this.register[Vx] += nn;
+          break;
         case 0xa:
           this.I = nnn;
           console.log(`this.I = nnn ${nnn}`);
@@ -180,6 +183,10 @@ this.screen = new Screen();
 
           console.log(`draw function ${this.display}`);
           this.screen._setPixel(this.display)
+          break;
+        default:
+          console.error(`Missing opcode: ${op}`);
+          
           break;
         }
 

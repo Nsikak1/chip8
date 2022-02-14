@@ -11,15 +11,25 @@ import Cpu from "./Cpu";
 // console.log(pixel.data);
 
 let cpu = new Cpu();
-cpu._loadRom().then(() => {
+cpu._loadRom("../roms/Space Invaders [David Winter].ch8").then(() => {
     cpu._loadFont();
+    cpu._initKeyboard()
     step();
 })
 
-function    step () {
+
+function step () {
     setInterval(() => {
         cpu._fetch();
-        cpu._execute(...cpu._decode());        
-    }, 100);
+        cpu._execute(...cpu._decode());    
+        if (cpu.DT > 0) {
+            --cpu.DT;
+        }   
+        if (cpu.ST > 0) {
+            --cpu.ST;
+        }    
+        
+    }, 13);
     
 }
+
